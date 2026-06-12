@@ -1,0 +1,45 @@
+[project]
+name = "asteroids-rl"
+version = "0.1.0"
+description = "Train RL agents (PPO, DQN) to play Atari Asteroids with a reproducible pipeline"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "stable-baselines3[extra]>=2.3",
+    "gymnasium[atari]>=0.29",
+    "ale-py>=0.9",
+    "autorom[accept-rom-license]>=0.6",
+    "torch>=2.3",
+    "wandb>=0.17",
+    "pyyaml>=6.0",
+    "tensorboard>=2.16",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+    "black>=24.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/asteroids_rl"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

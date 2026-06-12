@@ -1,0 +1,28 @@
+# PPO on ALE/Asteroids-v5 — SB3 Atari defaults
+algo: ppo
+env_id: ALE/Asteroids-v5
+seed: 42
+total_timesteps: 1_000_000  # validate the loop at 1M, then scale to 10M
+
+n_envs: 8
+frame_stack: 4
+
+policy: CnnPolicy
+hyperparams:
+  n_steps: 128
+  batch_size: 256
+  n_epochs: 4
+  gamma: 0.99
+  learning_rate: 2.5e-4   # linearly decayed in train.py
+  clip_range: 0.1
+  ent_coef: 0.01
+  vf_coef: 0.5
+
+eval:
+  freq: 50_000        # per-env steps between eval runs
+  episodes: 5
+checkpoint_freq: 100_000
+
+wandb:
+  project: asteroids-rl
+  enabled: true
