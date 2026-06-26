@@ -7,6 +7,8 @@ total_timesteps: 10_000_000  # full run (validate the loop at 1M via CLI overrid
 n_envs: 8
 frame_stack: 4
 
+resume_from: null  # path to a checkpoint .zip to continue an interrupted run; null = fresh start
+
 policy: CnnPolicy
 hyperparams:
   n_steps: 128

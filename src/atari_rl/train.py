@@ -37,9 +37,26 @@ def load_model(model_path: str, env):
     raise ValueError(f"Could not load {model_path} as any of {list(ALGOS)}")
 
 
+def _run_name_from_checkpoint(resume_from: str) -> str:
+    """Recover the original run dir name (models/<run_name>/...) from a checkpoint path.
+
+    Lets a resumed run drop its new checkpoints alongside the originals so the
+    full learning timelapse stays in one place.
+    """
+    run_dir = Path(resume_from).resolve().parent
+    while run_dir.name in {"checkpoints", "best"}:
+        run_dir = run_dir.parent
+    return run_dir.name
+
+
 def train(config: dict) -> Path:
     algo_name = config["algo"].lower()
-    run_name = f"{algo_name}_{int(time.time())}"
+    resume_from = config.get("resume_from")
+
+    if resume_from:
+        run_name = _run_name_from_checkpoint(resume_from)
+    else:
+        run_name = f"{algo_name}_{int(time.time())}"
 
     env = make_env(
         config["env_id"],
@@ -66,15 +83,39 @@ def train(config: dict) -> Path:
         )
         callbacks.append(WandbCallback())
 
-    model = ALGOS[algo_name](
-        config["policy"],
-        env,
-        seed=config["seed"],
-        tensorboard_log=f"runs/{run_name}",
-        verbose=1,
-        **hyperparams,
-    )
-    model.learn(total_timesteps=int(config["total_timesteps"]), callback=callbacks)
+    total_timesteps = int(config["total_timesteps"])
+
+    if resume_from:
+        # Restore policy weights + optimizer state from the checkpoint and pick up
+        # where the run stopped. reset_num_timesteps=False keeps the global step
+        # counter, so checkpoint filenames and the LR schedule continue correctly.
+        model = ALGOS[algo_name].load(resume_from, env=env)
+        model.tensorboard_log = f"runs/{run_name}"
+        remaining = total_timesteps - model.num_timesteps
+        if remaining <= 0:
+            print(
+                f"Checkpoint is already at {model.num_timesteps} steps "
+                f"(>= total_timesteps={total_timesteps}); nothing to train."
+            )
+            env.close()
+            if wandb_run is not None:
+                wandb_run.finish()
+            return Path("models") / run_name / "final_model"
+        print(
+            f"Resuming {run_name} from {resume_from} at {model.num_timesteps} steps; "
+            f"training {remaining} more to reach {total_timesteps}."
+        )
+        model.learn(total_timesteps=remaining, callback=callbacks, reset_num_timesteps=False)
+    else:
+        model = ALGOS[algo_name](
+            config["policy"],
+            env,
+            seed=config["seed"],
+            tensorboard_log=f"runs/{run_name}",
+            verbose=1,
+            **hyperparams,
+        )
+        model.learn(total_timesteps=total_timesteps, callback=callbacks)
 
     final_path = Path("models") / run_name / "final_model"
     final_path.parent.mkdir(parents=True, exist_ok=True)
