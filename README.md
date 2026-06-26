@@ -68,4 +68,4 @@ uv run black --check src tests
 |-------|-------|
 | **Deep RL** | [Python 3.10+](https://www.python.org/), [PyTorch](https://pytorch.org/), [Stable-Baselines3](https://stable-baselines3.readthedocs.io/), [Gymnasium](https://gymnasium.farama.org/), [ALE-py](https://ale.farama.org/) |
 | **Tracking & config** | [Weights & Biases](https://wandb.ai/), [Hydra](https://hydra.cc/), [TensorBoard](https://www.tensorflow.org/tensorboard) |
-| **Tooling** | [Docker](https://www.docker.com/), [pytest](https://docs.pytest.org/), [Ruff](https://docs.astral.sh/ruff/), [Black](https://black.readthedocs.io/) |
+| **Tooling** | [pytest](https://docs.pytest.org/), [Ruff](https://docs.astral.sh/ruff/), [Black](https://black.readthedocs.io/) |
