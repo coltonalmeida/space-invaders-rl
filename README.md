@@ -66,6 +66,6 @@ uv run black --check src tests
 
 | Layer | Tools |
 |-------|-------|
-| **Deep RL** | ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white) ![Stable-Baselines3](https://img.shields.io/badge/Stable--Baselines3-792EE5) ![Gymnasium](https://img.shields.io/badge/Gymnasium-0081A5) ![ALE-py](https://img.shields.io/badge/ALE--py-CC0000) |
-| **Tracking & config** | ![Weights & Biases](https://img.shields.io/badge/Weights%20%26%20Biases-FFBE00?logo=weightsandbiases&logoColor=black) ![Hydra](https://img.shields.io/badge/Hydra-89B8CD) ![TensorBoard](https://img.shields.io/badge/TensorBoard-FF6F00?logo=tensorflow&logoColor=white) |
-| **Tooling** | ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) ![pytest](https://img.shields.io/badge/pytest-0A9EDC?logo=pytest&logoColor=white) ![Ruff](https://img.shields.io/badge/Ruff-D7FF64?logo=ruff&logoColor=black) ![Black](https://img.shields.io/badge/Black-000000) |
+| **Deep RL** | [Python 3.10+](https://www.python.org/), [PyTorch](https://pytorch.org/), [Stable-Baselines3](https://stable-baselines3.readthedocs.io/), [Gymnasium](https://gymnasium.farama.org/), [ALE-py](https://ale.farama.org/) |
+| **Tracking & config** | [Weights & Biases](https://wandb.ai/), [Hydra](https://hydra.cc/), [TensorBoard](https://www.tensorflow.org/tensorboard) |
+| **Tooling** | [Docker](https://www.docker.com/), [pytest](https://docs.pytest.org/), [Ruff](https://docs.astral.sh/ruff/), [Black](https://black.readthedocs.io/) |
