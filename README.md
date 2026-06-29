@@ -1,6 +1,6 @@
 # space-invaders-rl
 
-End-to-end deep reinforcement learning pipeline that trains an agent to play
+Reinforcement learning pipeline that trains an agent to play
 **Atari Space Invaders** (`ALE/SpaceInvaders-v5`) and more than doubles the score
 of a random-play baseline. A **PPO** agent is trained, evaluated, and compared against a
 random-play baseline with tracked experiments, saved checkpoints, and recorded gameplay.
